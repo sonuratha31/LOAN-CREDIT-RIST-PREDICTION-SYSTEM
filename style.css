@@ -1,0 +1,216 @@
+:root {
+    --primary: #4F46E5;
+    --primary-dark: #3730A3;
+    --secondary: #10B981;
+    --bg: #0F172A;
+    --card-bg: #1E293B;
+    --text: #F8FAFC;
+    --text-muted: #94A3B8;
+    --border: #334155;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Hero Section */
+header {
+    text-align: center;
+    padding: 4rem 0;
+    background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 3rem;
+}
+
+h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    background: linear-gradient(to right, #818CF8, #34D399);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+}
+
+p.subtitle {
+    color: var(--text-muted);
+    font-size: 1.2rem;
+}
+
+/* Grid Layout */
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+/* Form Styling */
+.card {
+    background: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+input, select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: #0F172A;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+input:focus, select:focus {
+    border-color: var(--primary);
+}
+
+.btn {
+    width: 100%;
+    padding: 1rem;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.btn:hover {
+    background: var(--primary-dark);
+    transform: scale(1.02);
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+/* Result Section */
+#result-container {
+    display: none;
+    position: sticky;
+    top: 2rem;
+}
+
+.result-card {
+    background: linear-gradient(145deg, #1e293b, #0f172a);
+    padding: 3rem;
+    border-radius: 1.5rem;
+    text-align: center;
+    border: 2px solid var(--primary);
+}
+
+.result-header {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-muted);
+}
+
+.probability-bar {
+    height: 12px;
+    background: #334155;
+    border-radius: 10px;
+    margin: 1.5rem 0;
+    overflow: hidden;
+}
+
+.probability-fill {
+    height: 100%;
+    background: var(--primary);
+    width: 0%;
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.score {
+    font-size: 4rem;
+    font-weight: 800;
+    color: var(--text);
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    border-radius: 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 1rem;
+}
+
+.status-approved { background: #065F46; color: #34D399; }
+.status-rejected { background: #991B1B; color: #F87171; }
+
+.message {
+    margin-top: 2rem;
+    font-size: 1.1rem;
+}
+
+/* Main Layout */
+.main-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.card-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Form Scaling */
+.form-group label {
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* Charts Card Customization */
+canvas {
+    max-width: 100%;
+    margin-top: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+}

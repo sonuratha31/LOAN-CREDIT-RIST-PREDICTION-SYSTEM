@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Eligibility AI | Full Analytics Suite</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .grid-container { display: grid; gap: 1rem; }
+        .matrix-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
+        .matrix-cell { padding: 1rem; background: #0F172A; border-radius: 8px; border: 1px solid var(--border); text-align: center; }
+        .matrix-value { font-size: 1.2rem; font-weight: 700; display: block; }
+        .matrix-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }
+        
+        #heatmap { display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; }
+        .heatmap-cell { width: 100%; aspect-ratio: 1; border-radius: 2px; }
+        
+        .cv-badge { background: rgba(16, 185, 129, 0.1); border: 1px solid var(--secondary); color: var(--secondary); padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+        
+        /* History Table Styling */
+        .history-card { margin-top: 2rem; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.85rem; }
+        th { text-align: left; padding: 1rem; color: var(--text-muted); border-bottom: 2px solid var(--border); text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.75rem; }
+        td { padding: 1rem; border-bottom: 1px solid var(--border); }
+        .export-btn { background: var(--secondary); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.8rem; margin-top: 1rem; }
+        .export-btn:hover { opacity: 0.9; transform: scale(1.02); }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <h1>Loan Detection AI</h1>
+        <p class="subtitle">Complete Data-Driven Eligibility Analytics & Predictive Modelling.</p>
+    </div>
+</header>
+
+<main class="container">
+    <div class="main-grid">
+        <!-- Input Form -->
+        <div class="card">
+            <h2 style="margin-bottom: 1.5rem;">New Application</h2>
+            <form id="prediction-form">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="number" id="age" name="age" required min="18" max="100" value="32">
+                    </div>
+                    <div class="form-group">
+                        <label for="campaign">Calls</label>
+                        <input type="number" id="campaign" name="campaign" required min="1" max="50" value="1">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="job">Occupation</label>
+                    <select id="job" name="job">
+                        <option value="management" selected>Management</option>
+                        <option value="technician">Technician</option>
+                        <option value="admin.">Admin</option>
+                        <option value="blue-collar">Blue Collar</option>
+                        <option value="retired">Retired</option>
+                    </select>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label for="marital">Marital</label>
+                        <select id="marital" name="marital">
+                            <option value="single" selected>Single</option>
+                            <option value="married">Married</option>
+                            <option value="divorced">Divorced</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="education">Education</label>
+                        <select id="education" name="education">
+                            <option value="university.degree" selected>University Degree</option>
+                            <option value="high.school">High School</option>
+                            <option value="professional.course">Professional Course</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                   <div class="form-group"><label for="default">Default</label><select id="default" name="default"><option value="no" selected>No</option><option value="yes">Yes</option></select></div>
+                   <div class="form-group"><label for="housing">Housing</label><select id="housing" name="housing"><option value="no">No</option><option value="yes" selected>Yes</option></select></div>
+                   <div class="form-group"><label for="loan">Loan</label><select id="loan" name="loan"><option value="no" selected>No</option><option value="yes">Yes</option></select></div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label for="contact">Contact</label>
+                        <select id="contact" name="contact"><option value="cellular" selected>Cellular</option><option value="telephone">Phone</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="poutcome">Outcome</label>
+                        <select id="poutcome" name="poutcome"><option value="nonexistent" selected>None</option><option value="failure">Failure</option><option value="success">Success</option></select>
+                    </div>
+                </div>
+                
+                <input type="hidden" name="pdays" value="999">
+                <input type="hidden" name="previous" value="0">
+
+                <button type="submit" class="btn">Predict & Add to Session</button>
+            </form>
+            
+            <!-- History Table -->
+            <div class="history-card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3>Recent Predictions</h3>
+                    <button id="export-btn" class="export-btn">Export Session (.CSV)</button>
+                </div>
+                <table id="history-table">
+                    <thead>
+                        <tr><th>Age</th><th>Job</th><th>Prob. (%)</th><th>Result</th></tr>
+                    </thead>
+                    <tbody>
+                        <!-- History filled by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="card-column">
+            <div id="actual-result" class="result-card">
+              <div class="result-header">Analysis result</div>
+              <div class="score" id="score-text">-----</div>
+              <div class="probability-bar"><div id="prob-fill" class="probability-fill"></div></div>
+              <div id="status-badge" class="status-badge">READY</div>
+            </div>
+
+            <div class="card">
+                <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3 style="margin:0;">Stability Metrics</h3>
+                    <span class="cv-badge">5x-Fold Stability</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div class="matrix-cell"><span class="matrix-label">Mean F1 score</span><div class="matrix-value" id="cv-mean">--</div></div>
+                    <div class="matrix-cell"><span class="matrix-label">Std Deviation</span><div class="matrix-value" id="cv-std">--</div></div>
+                </div>
+                <div class="matrix-grid">
+                    <div class="matrix-cell"><span class="matrix-label">TN</span><div class="matrix-value" id="val-tn">--</div></div>
+                    <div class="matrix-cell"><span class="matrix-label">FP</span><div class="matrix-value" id="val-fp">--</div></div>
+                    <div class="matrix-cell"><span class="matrix-label">FN</span><div class="matrix-value" id="val-fn">--</div></div>
+                    <div class="matrix-cell" style="border-color: var(--secondary);"><span class="matrix-label">TP</span><div class="matrix-value" id="val-tp">--</div></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Correlations</h3>
+                <div id="heatmap" class="heatmap" style="margin-top: 1rem;"></div>
+            </div>
+
+            <div class="card">
+                <h3>Feature Importance</h3>
+                <canvas id="importanceChart" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
