@@ -1,38 +1,31 @@
 # Loan Detection AI - ML Project
 
-A comprehensive machine learning solution for predicting loan eligibility based on banking marketing data.
+A comprehensive Machine Learning web application that predicts loan eligibility using banking marketing data. The system uses a Random Forest Classifier and provides predictions through a Flask web interface.
+
+## Live Demo
+https://loan-credit-rist-prediction-system-4.onrender.com
+
+(Note: Free hosting may take 30–60 seconds to start)
 
 ## Features
-- **Exploratory Data Analysis**: Pre-processed dataset (already one-hot encoded).
-- **Machine Learning**: Random Forest Classifier with imbalanced class handling.
-- **Flask API**: High-performance backend for real-time predictions.
-- **Premium Frontend**: Modern dark-themed dashboard with Inter font and CSS animations.
 
-## How to Run
+• Exploratory Data Analysis (One-hot encoded dataset)  
+• Random Forest Classifier with class imbalance handling  
+• Flask API for real-time predictions  
+• Modern responsive frontend dashboard  
+• Model evaluation metrics and feature importance  
+• Live deployment on Render  
 
-1. **Install Dependencies**:
-   ```bash
-   pip install pandas scikit-learn flask flask-cors joblib
-   ```
+## Tech Stack
 
-2. **Train the Model**:
-   ```bash
-   python train.py
-   ```
-   *Note: This generates the `models/` directory with `loan_model.joblib` and `scaler.joblib`.*
+Python  
+Flask  
+Scikit-learn  
+Pandas  
+NumPy  
+HTML/CSS/JavaScript  
+Render (Cloud Deployment)
 
-3. **Start the Web App**:
-   ```bash
-   python app.py
-   ```
+## How to Run Locally
 
-4. **Access the Dashboard**:
-   Open [http://127.0.0.1:5000](http://127.0.0.1:5000) in your browser.
-
-## Project Structure
-- `data/`: Contains the original CSV dataset.
-- `models/`: Serialized ML model and scaler.
-- `static/`: Frontend assets (CSS, JS).
-- `templates/`: HTML structure.
-- `app.py`: Backend server logic.
-- `train.py`: Model training pipeline.
+### 1 Install dependencies
