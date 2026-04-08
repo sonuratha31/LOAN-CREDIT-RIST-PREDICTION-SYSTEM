@@ -12,7 +12,7 @@ os.makedirs('models', exist_ok=True)
 
 # Load data
 print("Loading data for advanced stats...")
-df = pd.read_csv('data/loan_detection.csv')
+df = pd.read_csv('loan_detection.csv')
 target = 'Loan_Status_label'
 
 # 1. Calculate Correlation Matrix (Top 12 most correlated with target)
