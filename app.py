@@ -79,7 +79,7 @@ def stats():
         top_importances = [float(importances[i]) for i in indices]
 
         # Dataset stats (counts)
-        dataset_path = 'data/loan_detection.csv'
+        dataset_path = 'loan_detection.csv'
         if os.path.exists(dataset_path):
             df = pd.read_csv(dataset_path)
             counts = df['Loan_Status_label'].value_counts().to_dict()
@@ -102,4 +102,5 @@ def stats():
         return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
