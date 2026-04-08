@@ -6,8 +6,6 @@ A comprehensive Machine Learning web application that predicts loan eligibility 
 
 https://loan-credit-rist-prediction-system-4.onrender.com
 
-(Note: The free Render instance may take 30–60 seconds to wake up after inactivity.)
-
 ## Features
 
 • Loan eligibility prediction using Machine Learning
